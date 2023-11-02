@@ -1,5 +1,6 @@
 package exercicios.sigaa;
 
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -37,14 +38,21 @@ public class Login extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
+		 ServletContext context = getServletContext();
+		 String adminPassword = context.getInitParameter("adminPassword");
+		
 		if (username != null && !username.isEmpty()) {
             if(password != null && !password.isEmpty()) {
-            	response.sendRedirect("HelloWorld");
+            	if(password.equals(adminPassword)) {
+            	// response.sendRedirect("Home");
+            }
+            else {
+            	response.sendRedirect("Home");
             }
         }
 		else {
 			response.sendRedirect("login?erro=1");
 		}
 	}
-
+  }
 }
