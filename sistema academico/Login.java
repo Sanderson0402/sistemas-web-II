@@ -1,14 +1,16 @@
 package exercicios.sigaa;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.io.PrintWriter;
-
 
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -21,13 +23,13 @@ public class Login extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		out.println("<html><body>");
-		out.println("<h1>Login<h1>");
+		out.println("<h1>Login</h1>");
 		out.println("<form method = \"post\">");
 		out.println("Nome: ");
 		out.println("<input type=\"text\" id=\"username\" name=\"username\">");
 		out.println("<br>");
 		out.println("Senha: ");
-		out.println("<input type=\"text\" id=\"password\" name=\"password\">");
+		out.println("<input type=\"password\" id=\"password\" name=\"password\">");
 		out.println("<input type=\"submit\" value=\"Logar\">");
 		out.println("</form>");
         out.println("</body></html>");
@@ -35,6 +37,9 @@ public class Login extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		RequestDispatcher login = request.getRequestDispatcher("Home");
+		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
@@ -43,11 +48,12 @@ public class Login extends HttpServlet {
 		
 		if (username != null && !username.isEmpty()) {
             if(password != null && !password.isEmpty()) {
+            	session.setAttribute("username", username);
             	if(password.equals(adminPassword)) {
-            	// response.sendRedirect("Home");
+            	// login.forward(request, response);
             }
             else {
-            	response.sendRedirect("Home");
+            	login.forward(request, response);
             }
         }
 		else {
