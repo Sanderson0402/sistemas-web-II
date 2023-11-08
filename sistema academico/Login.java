@@ -38,7 +38,7 @@ public class Login extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		RequestDispatcher login = request.getRequestDispatcher("Home");
+		RequestDispatcher logado = request.getRequestDispatcher("/Home");
 		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -50,10 +50,10 @@ public class Login extends HttpServlet {
             if(password != null && !password.isEmpty()) {
             	session.setAttribute("username", username);
             	if(password.equals(adminPassword)) {
-            	// login.forward(request, response);
+            	// logado.forward(request, response);
             }
             else {
-            	login.forward(request, response);
+            	logado.forward(request, response);
             }
         }
 		else {
